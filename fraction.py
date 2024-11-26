@@ -20,12 +20,12 @@ class Fraction:
                 raise ZeroDenominatorException("Le dénominateur d'une fraction ne peut être egal à zéro.")
             # traitement de cas possible pour les valeurs de num et den
             if num < 0 and den < 0:
-                self.__fract = (abs(num), abs(den))
+                self.__fract = self._simplifier(abs(num), abs(den))
             elif den < 0:
                 # pour les opperations le moin de la fraction porte sur le numerateur
-                self.__fract = (-num, abs(den))
+                self.__fract = self._simplifier(-num, abs(den))
             else:
-                self.__fract = (num, den) # encapsulation
+                self.__fract = self._simplifier(num, den) # encapsulation
         except TypeError as e:
             #print(e)
             raise # empecher la création de l'instace de la classe
@@ -112,10 +112,10 @@ class Fraction:
     def _simplifier(self, num, den):
         """Simplifier une fraction
         PRE: -
-        POST: Renvoie une Fraction simplifié.
+        POST: Renvoie un tuple.
         """
         div = self._gcd(num, den)
-        return Fraction(num//div, den//div)
+        return (num//div, den//div)
     
     def __sub__(self, other):
         """Overloading of the - operator for fractions

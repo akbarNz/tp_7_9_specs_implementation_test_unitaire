@@ -11,7 +11,7 @@ class Fraction:
 
         PRE : num, den : sont de type entier. den doit être strictement superieur à 0
         POST : None
-        RAISES : ZeroDenominatorException si den = 0
+        RAISES : ZeroDenominatorException si den = 0, TypeError si num et den pas entier
         """
         try:
             if not (isinstance(num, int) and isinstance(den, int)):
@@ -28,10 +28,10 @@ class Fraction:
                 self.__fract = self._simplifier(num, den) # encapsulation
         except TypeError as e:
             #print(e)
-            raise # empecher la création de l'instace de la classe
+            raise e # empecher la création de l'instace de la classe
         except ZeroDenominatorException as e:
             #print(e)
-            raise # empecher la création de l'instace de la classe
+            raise e # empecher la création de l'instace de la classe
                  
 
     @property
@@ -94,7 +94,8 @@ class Fraction:
             n = (den_commun // self.denominator) * self.numerator + (den_commun // other.denominator) * other.numerator
             return Fraction(n, den_commun)
         except TypeError as e:
-            print(e)
+            raise e
+            #print(e)
         
 
     def _ppcm(self, nb1, nb2):
@@ -170,7 +171,8 @@ class Fraction:
                 other = Fraction(other)
             return Fraction(self.numerator * other.denominator, self.denominator * other.numerator)
         except TypeError as e:
-            print(e)
+            raise e
+            #print(e)
         
             
     def __pow__(self, other):
@@ -185,7 +187,8 @@ class Fraction:
             
             return Fraction(self.numerator ** other, self.denominator ** other)
         except TypeError as e:
-            print(e)
+            raise e
+            #print(e)
         
     
     def __eq__(self, other) : 
@@ -201,7 +204,8 @@ class Fraction:
             
             return self.numerator == other.numerator and self.denominator == other.denominator
         except TypeError as e:
-            print(e)
+            raise e
+            #print(e)
 
             
     def __float__(self) :
@@ -225,7 +229,8 @@ class Fraction:
             
             return self.__float__() > other.__float__()
         except TypeError as e:
-            print(e)
+            raise e
+            #print(e)
         
 
     def __lt__(self, other):
@@ -240,7 +245,8 @@ class Fraction:
             
             return self.__float__() < other.__float__()
         except TypeError as e:
-            print(e)
+            raise e
+            #print(e)
 
 
 
@@ -317,7 +323,8 @@ class Fraction:
                 # scpy + unit = ocpy 
                 return scpy + unit == ocpy
         except TypeError as e:
-            print(e)
+            raise e
+            #print(e)
         
             
 

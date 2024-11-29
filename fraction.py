@@ -13,25 +13,20 @@ class Fraction:
         POST : None
         RAISES : ZeroDenominatorException si den = 0, TypeError si num et den pas entier
         """
-        try:
-            if not (isinstance(num, int) and isinstance(den, int)):
-                raise TypeError(f"type de num : {type(num)}\n type de den : {type(den)}\n le numerateur et le denominateur doivent être de type int")    
-            if den == 0:
-                raise ZeroDenominatorException("Le dénominateur d'une fraction ne peut être egal à zéro.")
-            # traitement de cas possible pour les valeurs de num et den
-            if num < 0 and den < 0:
-                self.__fract = self._simplifier(abs(num), abs(den))
-            elif den < 0:
-                # pour les opperations le moin de la fraction porte sur le numerateur
-                self.__fract = self._simplifier(-num, abs(den))
-            else:
-                self.__fract = self._simplifier(num, den) # encapsulation
-        except TypeError as e:
-            #print(e)
-            raise e # empecher la création de l'instace de la classe
-        except ZeroDenominatorException as e:
-            #print(e)
-            raise e # empecher la création de l'instace de la classe
+        
+        if not (isinstance(num, int) and isinstance(den, int)):
+            raise TypeError(f"type de num : {type(num)}\n type de den : {type(den)}\n le numerateur et le denominateur doivent être de type int")    
+        if den == 0:
+            raise ZeroDenominatorException("Le dénominateur d'une fraction ne peut être egal à zéro.")
+        # traitement de cas possible pour les valeurs de num et den
+        if num < 0 and den < 0:
+            self.__fract = self._simplifier(abs(num), abs(den))
+        elif den < 0:
+            # pour les opperations le moin de la fraction porte sur le numerateur
+            self.__fract = self._simplifier(-num, abs(den))
+        else:
+            self.__fract = self._simplifier(num, den) # encapsulation
+        
                  
 
     @property
@@ -81,22 +76,18 @@ class Fraction:
          RAISES : TypeError si other n'est pas de type entier ou Fraction
          """
         
-        try:
-            if not isinstance(other, (Fraction, int)):
-                raise TypeError(f'type de other : {type(other)}. ne supporte pas l\'addition avec ce type. type doit être Fraction ou int')
-            if isinstance(other, int):
-                other = Fraction(other)
-            #meme denominateur
-            if self.denominator == other.denominator:
-                return Fraction(self.numerator + other.numerator, self.denominator)
-            #denominateur différent
-            den_commun = self._ppcm(self.denominator, other.denominator)
-            n = (den_commun // self.denominator) * self.numerator + (den_commun // other.denominator) * other.numerator
-            return Fraction(n, den_commun)
-        except TypeError as e:
-            raise e
-            #print(e)
-        
+        if not isinstance(other, (Fraction, int)):
+            raise TypeError(f'type de other : {type(other)}. ne supporte pas l\'addition avec ce type. type doit être Fraction ou int')
+        if isinstance(other, int):
+            other = Fraction(other)
+        #meme denominateur
+        if self.denominator == other.denominator:
+            return Fraction(self.numerator + other.numerator, self.denominator)
+        #denominateur différent
+        den_commun = self._ppcm(self.denominator, other.denominator)
+        n = (den_commun // self.denominator) * self.numerator + (den_commun // other.denominator) * other.numerator
+        return Fraction(n, den_commun)
+
 
     def _ppcm(self, nb1, nb2):
         return abs(nb1 * nb2) // self._gcd(nb1, nb2)
@@ -124,20 +115,19 @@ class Fraction:
         PRE : other peut être de type Fraction ou entier
         POST : renvoie un objet de type Fraction.
         """
-        try:
-            if not isinstance(other, (Fraction, int)):
-                raise TypeError(f'type de other : {type(other)}. ne supporte pas la soustraction avec ce type. type doit être Fraction ou int')
-            if isinstance(other, int):
-                other = Fraction(other)
-            #meme denominateur
-            if self.denominator == other.denominator:
-                return Fraction(self.numerator - other.numerator, self.denominator)
-            #denominateur différent
-            den_commun = self._ppcm(self.denominator, other.denominator)
-            n = (den_commun // self.denominator) * self.numerator - (den_commun // other.denominator) * other.numerator
-            return Fraction(n, den_commun)
-        except TypeError as e:
-            print(e)
+
+        if not isinstance(other, (Fraction, int)):
+            raise TypeError(f'type de other : {type(other)}. ne supporte pas la soustraction avec ce type. type doit être Fraction ou int')
+        if isinstance(other, int):
+            other = Fraction(other)
+        #meme denominateur
+        if self.denominator == other.denominator:
+            return Fraction(self.numerator - other.numerator, self.denominator)
+        #denominateur différent
+        den_commun = self._ppcm(self.denominator, other.denominator)
+        n = (den_commun // self.denominator) * self.numerator - (den_commun // other.denominator) * other.numerator
+        return Fraction(n, den_commun)
+
         
     def __mul__(self, other):
         """Overloading of the * operator for fractions
@@ -145,16 +135,15 @@ class Fraction:
         PRE : other peut être de type Fraction ou entier
         POST : renvoie un objet de type Fraction.
         """
-        try:
-            if not isinstance(other, (Fraction, int)):
-                raise TypeError(f'la multiplication entre le type {type(self)} et \
-                                le type {type(other)} n\'est pas defini. le type doit être Fraction ou int')
-            
-            return Fraction(self.numerator * other.numerator, self.denominator * other.denominator)
-        except TypeError as e:
-            print(e)
+
+        if not isinstance(other, (Fraction, int)):
+            raise TypeError(f'la multiplication entre le type {type(self)} et \
+                            le type {type(other)} n\'est pas defini. le type doit être Fraction ou int')
         if isinstance(other, int):
             other = Fraction(other)
+        return Fraction(self.numerator * other.numerator, self.denominator * other.denominator)
+
+        
             
 
     def __truediv__(self, other):
@@ -163,16 +152,14 @@ class Fraction:
         PRE : other peut être de type Fraction ou entier
         POST : renvoie un objet de type Fraction.
         """
-        try:
-            if not isinstance(other, (Fraction, int)):
-                raise TypeError(f'la multiplication entre le type {type(self)} et \
-                                le type {type(other)} n\'est pas defini. le type doit être Fraction ou int')
-            if isinstance(other, int):
-                other = Fraction(other)
-            return Fraction(self.numerator * other.denominator, self.denominator * other.numerator)
-        except TypeError as e:
-            raise e
-            #print(e)
+
+        if not isinstance(other, (Fraction, int)):
+            raise TypeError(f'la multiplication entre le type {type(self)} et \
+                            le type {type(other)} n\'est pas defini. le type doit être Fraction ou int')
+        if isinstance(other, int):
+            other = Fraction(other)
+        return Fraction(self.numerator * other.denominator, self.denominator * other.numerator)
+
         
             
     def __pow__(self, other):
@@ -181,14 +168,11 @@ class Fraction:
         PRE : type de other doit être entier
         POST : renvoie un objet de type Fraction.
         """
-        try:
-            if not isinstance(other, int):
-                raise TypeError(f'le type {type(other)} n\'est pas valide. type doit être int')
-            
-            return Fraction(self.numerator ** other, self.denominator ** other)
-        except TypeError as e:
-            raise e
-            #print(e)
+        if not isinstance(other, int):
+            raise TypeError(f'le type {type(other)} n\'est pas valide. type doit être int')
+        
+        return Fraction(self.numerator ** other, self.denominator ** other)
+
         
     
     def __eq__(self, other) : 
@@ -198,14 +182,12 @@ class Fraction:
         POST : renvoie un booléen. True si égalité, False sinon. 
         
         """
-        try:
-            if not isinstance(other, Fraction):
-                raise TypeError(f'le type {type(other)} n\'est pas valide. type doit être Fraction')
-            
-            return self.numerator == other.numerator and self.denominator == other.denominator
-        except TypeError as e:
-            raise e
-            #print(e)
+
+        if not isinstance(other, Fraction):
+            raise TypeError(f'le type {type(other)} n\'est pas valide. type doit être Fraction')
+        
+        return self.numerator == other.numerator and self.denominator == other.denominator
+
 
             
     def __float__(self) :
@@ -223,14 +205,12 @@ class Fraction:
         POST: renvoie un booleen. True si plus grand, False sinon.
         RAISES: TypeError si type de other autre que Fraction
         """
-        try:
-            if not isinstance(other, Fraction):
-                raise TypeError(f'le type {type(other)} n\'est pas valide. other doit être de type Fraction')
-            
-            return self.__float__() > other.__float__()
-        except TypeError as e:
-            raise e
-            #print(e)
+
+        if not isinstance(other, Fraction):
+            raise TypeError(f'le type {type(other)} n\'est pas valide. other doit être de type Fraction')
+        
+        return self.__float__() > other.__float__()
+
         
 
     def __lt__(self, other):
@@ -239,14 +219,12 @@ class Fraction:
         POST: renvoie un booleen. True si plus grand, False sinon.
         RAISES: TypeError si type de other autre que Fraction
         """
-        try:
-            if not isinstance(other, Fraction):
-                raise TypeError(f'le type {type(other)} n\'est pas valide. other doit être de type Fraction')
-            
-            return self.__float__() < other.__float__()
-        except TypeError as e:
-            raise e
-            #print(e)
+
+        if not isinstance(other, Fraction):
+            raise TypeError(f'le type {type(other)} n\'est pas valide. other doit être de type Fraction')
+        
+        return self.__float__() < other.__float__()
+
 
 
 
@@ -300,32 +278,28 @@ class Fraction:
         POST : renvoie un booléen. True s'ils sont adjacent, False sinon.
         RIAISES : TypeError si other n'est pas de type Fraction.
         """
-        try:
-            if not isinstance(other, Fraction):
-                raise TypeError(f'le type {type(other)} n\'est pas valide. other doit être de type Fraction')
-            
-            # travailler qu'avec les copy positives de deux fractions
-            scpy = Fraction(abs(self.numerator), self.denominator)
-            ocpy = Fraction(abs(other.numerator), other.denominator)
-            # travailler qu'en positif pour se faciliter la tache
-            if scpy > ocpy:
-                unit = scpy - ocpy
-                # unit doit être une fraction unitaire
-                if not unit.is_unit():
-                    return False
-                # ocpy + unit = scpy 
-                return ocpy + unit == scpy
-            else:
-                unit = ocpy - scpy
-                # unit doit être une fraction unitaire
-                if not unit.is_unit():
-                    return False
-                # scpy + unit = ocpy 
-                return scpy + unit == ocpy
-        except TypeError as e:
-            raise e
-            #print(e)
+
+        if not isinstance(other, Fraction):
+            raise TypeError(f'le type {type(other)} n\'est pas valide. other doit être de type Fraction')
         
+        # travailler qu'avec les copy positives de deux fractions
+        scpy = Fraction(abs(self.numerator), self.denominator)
+        ocpy = Fraction(abs(other.numerator), other.denominator)
+        # travailler qu'en positif pour se faciliter la tache
+        if scpy > ocpy:
+            unit = scpy - ocpy
+            # unit doit être une fraction unitaire
+            if not unit.is_unit():
+                return False
+            # ocpy + unit = scpy 
+            return ocpy + unit == scpy
+        else:
+            unit = ocpy - scpy
+            # unit doit être une fraction unitaire
+            if not unit.is_unit():
+                return False
+            # scpy + unit = ocpy 
+            return scpy + unit == ocpy
             
 
 class ZeroDenominatorException(Exception):

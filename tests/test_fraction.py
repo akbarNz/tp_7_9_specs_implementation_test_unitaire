@@ -33,7 +33,7 @@ class FractionTest(unittest.TestCase):
 
     def test_init_typeerr_exc(self):
         """tester la lerver de l'exception TypeError"""
-        self.assertRaises(TypeError, Fraction, 'erfk', 4.2)
+        self.assertRaises(TypeError, Fraction, 'ab', 4.2)
 
     def test_str(self):
         """tester le format de la chaine de caractères"""
@@ -60,7 +60,7 @@ class FractionTest(unittest.TestCase):
         s = Fraction(-3,5)
         self.assertEqual(t+s, Fraction(-14, 15), 'addition de deux fractions negatives')
         with self.assertRaises(TypeError, msg='test TypeError pour l\'addition'):
-            x = self.setUp() + 'ab'
+            x = self.setUp() + 'abc'
 
     def test_truediv(self):
         """tester la division réel"""
@@ -75,16 +75,16 @@ class FractionTest(unittest.TestCase):
         x = o / t
         self.assertEqual(x, Fraction(3, 1), 'division de deux fractions negatives')
         with self.assertRaises(TypeError, msg='test la levé d\'exception TypeError'):
-            x = o / 'ab'
+            x = o / 'abc'
         with self.assertRaises(ZeroDenominatorException, msg='test la levé d\'un denominateur nul lors de la division par une fraction dont le numerateur est nul'):
             x = o / Fraction()
     
     def test_eq(self):
         o = self.setUp()
         self.assertEqual(o, Fraction(3,4), 'egalité entre deux fraction')
-        self.assertNotEqual(o, Fraction(), 'inegalité entre deux fraction')
+        self.assertNotEqual(o, Fraction(1,2), 'inegalité entre deux fraction')
         with self.assertRaises(TypeError, msg='test TypeError pour l\'egalité'):
-            self.assertEqual(o, 'ab')
+            self.assertEqual(o, 'abc')
         
     def test_is_integer(self):
         t = Fraction(4,2)
@@ -104,7 +104,7 @@ class FractionTest(unittest.TestCase):
         self.assertTrue(o.is_adjacent_to(t), 'test si deux fractions sont adjacent : True')
         self.assertFalse(o.is_adjacent_to(x), 'test si deux fractions sont adjacent : False')
         with self.assertRaises(TypeError):
-            o.is_adjacent_to('a')
+            o.is_adjacent_to('abc')
 
 if __name__ == '__main__':
     unittest.main()
